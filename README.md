@@ -4,7 +4,6 @@ This directive creates a table from a given array of objects.
 
 See at the botton to check how to add new row to the table. The primary purpose of this code is to understand how directives work.
 
-To add new rows do the following on chrome dev console:
 
 Use the following sample HTML file.
 ```html
@@ -34,6 +33,8 @@ app.directive("simpleDataTable", ["$compile", me.nachis.SimpleTableNgDirective])
 
 
 ```
+
+To add new rows do the following on chrome dev console:
 
 ```javascript
 var e = $("#d");
