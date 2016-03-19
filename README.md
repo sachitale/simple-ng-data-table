@@ -1,16 +1,12 @@
 # simple-ng-data-table
 A demo of a simple *link function* with *isolated scope* and *two way binding* demo.
-This directive creates a table from a given array of objects
+This directive creates a table from a given array of objects.
+
+See at the botton to check how to add new row to the table. The primary purpose of this code is to understand how directives work.
 
 To add new rows do the following on chrome dev console:
 
-```javascript
-var e = $("#d");
-var s = angular.element(e).scope();
-s.tdata.push({"fname":"michale", "lname":"jackson"});
-s.$apply();
-```
-
+Use the following sample HTML file.
 ```html
 
 <!DOCTYPE html>
@@ -37,4 +33,11 @@ app.directive("simpleDataTable", ["$compile", me.nachis.SimpleTableNgDirective])
 </html>
 
 
+```
+
+```javascript
+var e = $("#d");
+var s = angular.element(e).scope();
+s.tdata.push({"fname":"michale", "lname":"jackson"});
+s.$apply();
 ```
