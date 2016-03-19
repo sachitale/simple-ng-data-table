@@ -1,6 +1,6 @@
 /**
  * This directive assumes we are using jQuery.
- * A demostration of a very simple reusable component.
+ * A demonstration of a very simple reusable component.
  * This directive tables a simple data table and diplays it. The table also provides a way to delete rows.
  * Sample use:
  *
