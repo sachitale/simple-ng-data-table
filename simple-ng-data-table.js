@@ -41,7 +41,7 @@
 	 * @$compile : This directive uses $compile angular service
 	 */
 	me.nachis.SimpleTableNgDirective = function ($compile) {
-		console.log(this);
+
 		return {
 			//scope: false, // false: use parents scope, true: create own scope
 			scope : {
@@ -72,10 +72,13 @@
 					$compile(element.contents())(scope);
 				};
 
-				scope.$watch('tableData', function(newValue, oldValue) {
-					console.log("data modified");
-					updateTable(newValue);
-				}, true);
+				scope.$watch(
+					'tableData',                     // What to watch
+					function(newValue, oldValue) {
+						updateTable(newValue);       // update table
+					},
+					true                             // check for object equality
+				);
 
 			} 
 		};
