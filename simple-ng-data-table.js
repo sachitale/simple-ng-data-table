@@ -7,7 +7,10 @@
  * <script>
  * var app = angular.module("myApp", []);
  * app.controller('rootCtrl',['$scope', function($scope) {
- *	 $scope.data = [{"fname":"JJ", "lname":"Abrams"}];
+ *	 $scope.data =
+		[]
+		//[{"fname":"JJ", "lname":"Abrams"}]
+	;
  * }]);
  * app.directive("simpleDataTable", ["$compile", me.nachis.SimpleTableNgDirective]);
  * </script>
@@ -44,39 +47,66 @@
 
 		return {
 			//scope: false, // false: use parents scope, true: create own scope
-			scope : { // This is how to create isolated scope.
+			scope : {
+				// This is how to create isolated scope.
 				// this isolated scope makes this directive a reusable component
 				// This scope is completely a new object
-				tableData: '=tableData',            // The = sign indicates that this is a two way binding
+				tableData: '=tableData',             // The = sign indicates that this is a two way binding
 				deleteRowOption: '@deleteRowOption', // The @ indicates text binding
 				tableStyle: '@tableStyle'
 			},
 
 			link: function (scope, element, attrs, controller, transcludeFn) {
 
-				function updateTable(tdata)
+				var tdata = scope.tableData;
+				function updateData(tdata)
 				{
-					if(tdata.length <= 0) {
+					// console.log('called');
+					if(!tdata.length || tdata.length <= 0) {
+						element.css('display', 'none');
 						return;
 					}
-					element.html('<table style="{{tableStyle}}"></table>');
+					element.css('display', 'block');
+					if(scope.tableStyle && scope.tableStyle.startsWith(".")) {
+						element.html('<table class="{{tableStyle.substr(1)}}"></table>');
+					}
+					else {
+						element.html('<table style="{{tableStyle}}"></table>');
+					}
 					var tbl = element.find('table');
+					
+					var idx = 0;
+					var maxCols = -1;
+					for(var i=0; i<tdata.length; ++i) {
+						var colcount = 0;
+						for (var k in tdata[i]) {
+							if (tdata[i].hasOwnProperty(k)) {
+								++colcount;
+							}
+						}
+						if(colcount > maxCols) {
+							idx = i;
+						}
+					}
 
 					var row = $('<tr ng-repeat="r in tableData track by $index">').appendTo(tbl);
-					var c = 0;
-					for(var k in tdata[0]) {
-						console.log(k);
+					for(var k in tdata[idx]) {
 						var td = $('<td>{{r.'+k+'}}</td>').appendTo(row);
-						//td.text(colData[k]);
-						c++;
 					}
 
 					if(scope.deleteRowOption != undefined && scope.deleteRowOption !== "false") {
 						$('<td><button ng-click="tableData.splice($index, 1);">delete</button></td>').appendTo(row);
 					}
 					$compile(element.contents())(scope);
-				};
-				updateTable(scope.tableData);
+				}
+				updateData(tdata);
+				scope.$watch(
+					'tableData',
+					function(newVal, oldVal, scope) {
+						updateData(newVal);
+					},
+					true
+				);
 			}
 		};
 	};
