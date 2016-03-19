@@ -1,6 +1,6 @@
 /**
  * This directive assumes we are using jQuery.
- * A demonstration of a very simple reusable component.
+ * A demostration of a very simple reusable component.
  * This directive creates a simple data table and diplays it. The table also provides a way to delete rows.
  * Sample use:
  *
@@ -48,41 +48,36 @@
 				// this isolated scope makes this directive a reusable component
 				// This scope is completely a new object
 				tableData: '=tableData',            // The = sign indicates that this is a two way binding
-				deleteRowOption: '@deleteRowOption' // The @ indicates text binding
+				deleteRowOption: '@deleteRowOption', // The @ indicates text binding
+				tableStyle: '@tableStyle'
 			},
-			link: function link(scope, element, attrs, controller, transcludeFn) {
+
+			link: function (scope, element, attrs, controller, transcludeFn) {
 
 				function updateTable(tdata)
 				{
-					element.html('<table></table>');
+					if(tdata.length <= 0) {
+						return;
+					}
+					element.html('<table style="{{tableStyle}}"></table>');
 					var tbl = element.find('table');
 
-					for(var r=0; r<tdata.length; r++) {
-						var row = $('<tr id="r'+r+'"></tr>').appendTo(tbl);
-						var colData = tdata[r];
-						var c = 0;
-						for(var k in colData) {
-							var td = $('<td id="c'+c+'"></td>').appendTo(row);
-							td.text(colData[k]);
-							c++;
-						}
+					var row = $('<tr ng-repeat="r in tableData track by $index">').appendTo(tbl);
+					var c = 0;
+					for(var k in tdata[0]) {
+						console.log(k);
+						var td = $('<td>{{r.'+k+'}}</td>').appendTo(row);
+						//td.text(colData[k]);
+						c++;
+					}
 
-						if(scope.deleteRowOption != undefined && scope.deleteRowOption !== "false") {
-							$('<td><button ng-click="tableData.splice('+r+', 1);">delete</button></td>').appendTo(row);
-						}
+					if(scope.deleteRowOption != undefined && scope.deleteRowOption !== "false") {
+						$('<td><button ng-click="tableData.splice($index, 1);">delete</button></td>').appendTo(row);
 					}
 					$compile(element.contents())(scope);
 				};
-
-				scope.$watch(
-					'tableData',                     // What to watch
-					function(newValue, oldValue) {
-						updateTable(newValue);       // update table
-					},
-					true                             // check for object equality
-				);
-
-			} 
+				updateTable(scope.tableData);
+			}
 		};
 	};
 
