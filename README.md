@@ -1,5 +1,5 @@
 # simple-ng-data-table
-A demo of Angular Directive's *link function* with *isolated scope* and *two way data binding* demo.
+A demo of Angular Directive's *link function* with *isolated scope* and *two way data binding*.
 This directive creates a table from a given array of objects.
 
 See at the botton to check how to add new row to the table. The primary purpose of this code is to understand how directives work.
