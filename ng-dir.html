@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<script src="http://code.jquery.com/jquery-2.2.2.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script src="simple-ng-data-table.js"></script>
+
+<script>
+var app = angular.module("myApp", []);
+app.controller('rootCtrl',['$scope', function($scope) {
+	$scope.data = [{"fname":"JJ", "lname":"Abrams"}];
+	$scope.borderStyle = "dashed";
+}]);
+app.directive("nachisTable", ["$compile", me.nachis.SimpleTableNgDirective]);
+</script>
+
+<body ng-app="myApp" ng-controller="rootCtrl">
+
+<div id="d">{{data}}</div>
+<table style="border: solid 1px;">
+	<tr ng-repeat="r in data track by $index">
+		<td>{{r.fname}}</td>
+		<td>{{r.lname}}</td>
+	</tr>
+</table>
+
+<nachis-table table-data="data" delete-row-option table-style="border: {{borderStyle}} 1px;" ></nachis-table>
+
+</body>
+</html>
