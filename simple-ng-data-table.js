@@ -44,9 +44,11 @@
 
 		return {
 			//scope: false, // false: use parents scope, true: create own scope
-			scope : {
-				tableData: '=tableData', // this makes it a reusable component, instead of setting scope as false
-				deleteRowOption: '@deleteRowOption'
+			scope : { // This is how to create isolated scope.
+				// this isolated scope makes this directive a reusable component
+				// This scope is completely a new object
+				tableData: '=tableData',            // The = sign indicates that this is a two way binding
+				deleteRowOption: '@deleteRowOption' // The @ indicates text binding
 			},
 			link: function link(scope, element, attrs, controller, transcludeFn) {
 
